@@ -1,0 +1,7 @@
+VimRepressed is a modification of a modification of modification of the original vimpress.
+You can find the base for the modification here: http://apt-blog.net/an-improved-vimpress
+
+I updated it to add a new command "BlogNew" that allows the user to convert an existing
+text file to a blog post.
+
+-Justin (Justin.Slattery@fzysqr.com)
