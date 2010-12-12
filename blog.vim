@@ -26,7 +26,9 @@
 "           http://fzysqr.com/
 "
 " Version:	1.0.01
-" Last Change:  2010 August 20 - Fixed a bug with BlogSave command
+" Last Change:  2010 August 20 - Fixed a bug with BlogSave command, and added 
+" feature to take an existing document and use the BlogNew command to 
+" convert it to a blog post (which can be saved with the header intact). 
 "
 "#######################################################################
 
