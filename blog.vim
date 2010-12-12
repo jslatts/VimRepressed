@@ -25,8 +25,8 @@
 "           http://apt-blog.net
 "           http://fzysqr.com/
 "
-" Version:	1.0
-" Last Change:  2010 July 3
+" Version:	1.0.01
+" Last Change:  2010 August 20 - Fixed a bug with BlogSave command
 "
 "#######################################################################
 
