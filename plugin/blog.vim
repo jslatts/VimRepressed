@@ -46,18 +46,30 @@ command! -nargs=? -complete=custom,CompletionSave BlogSave exec('py blog_send_po
 command! -nargs=1 BlogOpen exec('py blog_open_post(<f-args>)')
 command! -nargs=1 -complete=file BlogUpload exec('py blog_upload_media(<f-args>)')
 command! -nargs=0 BlogCode exec('py blog_append_code()')
+
+"#####################
+"#      Settings     #
+"#####################
+
+if !exists("g:blog_username")
+    let g:blog_username = 'username'
+endif
+if !exists("g:blog_password")
+    let g:blog_password = 'password'
+endif
+if !exists("g:blog_url")
+    let g:blog_url = 'http://yourblog.com/xmlrpc.php'
+endif
+
 python <<EOF
 # -*- coding: utf-8 -*-
 import urllib , urllib2 , vim , xml.dom.minidom , xmlrpclib , sys , string , re, os, mimetypes
 
-#####################
-#      Settings     #
-#####################
+#Remap to python variables
 
-blog_username = 'username'
-blog_password = 'password'
-blog_url = 'http://yourblog.com/xmlrpc.php'
-
+blog_username = vim.eval("g:blog_username")
+blog_password = vim.eval("g:blog_password")
+blog_url = vim.eval("g:blog_url")
 
 image_template = '<img title="%(file)s" src="%(url)s" class="aligncenter" />'
 #####################
