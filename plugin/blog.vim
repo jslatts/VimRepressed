@@ -14,21 +14,19 @@
 " along with this program; if not, write to the Free Software Foundation,
 " Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  
 " 
-" Maintainer:	Adrien Friggeri <adrien@friggeri.net>
+" Maintainer:   Adrien Friggeri <adrien@friggeri.net>
 "               Pigeond <http://pigeond.net/blog/>
 "               BOYPT <pentie@gmail.com>
 "               Justin Sattery <justin.slattery@fzysqr.com>
 "
-" URL:		http://www.friggeri.net/projets/vimblog/
+" URL:      http://www.friggeri.net/projets/vimblog/
 "           http://pigeond.net/blog/2009/05/07/vimpress-again/
 "           http://pigeond.net/git/?p=vimpress.git
 "           http://apt-blog.net
 "           http://fzysqr.com/
 "
-" Version:	1.0.01
-" Last Change:  2010 August 20 - Fixed a bug with BlogSave command, and added 
-" feature to take an existing document and use the BlogNew command to 
-" convert it to a blog post (which can be saved with the header intact). 
+" Version:      1.0.02
+" Last Change:  2012 April 04 - Fixed crash when saving blog posts on OSX Lion
 "
 "#######################################################################
 
@@ -63,7 +61,7 @@ endif
 
 python <<EOF
 # -*- coding: utf-8 -*-
-import urllib , urllib2 , vim , xml.dom.minidom , xmlrpclib , sys , string , re, os, mimetypes
+import urllib, urllib2, vim, xml.dom.minidom, xmlrpclib, sys, string, re, os, mimetypes
 
 #Remap to python variables
 
@@ -83,11 +81,11 @@ def __exception_check(func):
         try:
             return func(*args, **kwargs)
         except xmlrpclib.Fault, e:
-            sys.stderr.write("xmlrpc error: %s" % e.faultString.encode("utf-8"))
+            print >> sys.stderr, "xmlrpc error: %s" % e.faultString.encode("utf-8")
         except xmlrpclib.ProtocolError, e:
-            sys.stderr.write("xmlrpc error: %s %s" % (e.url, e.errmsg))
+            print >> sys.stderr, "xmlrpc error: %s %s" % (e.url, e.errmsg)
         except IOError, e:
-            sys.stderr.write("network error: %s" % e)
+            print >> sys.stderr, "network error: %s" % e
 
     return __check
 
@@ -99,7 +97,7 @@ def blog_send_post(pub = "draft"):
     elif pub == "draft":
         publish = False
     else:
-        sys.stderr.write(":BlogSave draft|publish")
+        print >> sys.stderr, ":BlogSave draft|publish"
         return
 
     def get_line(what):
@@ -140,7 +138,7 @@ def blog_send_post(pub = "draft"):
             blog_password, post, publish)
         notify = "Blog Edited. %s.   ID=%s" %  ("Published" if publish else "Saved", strid)
 
-    sys.stdout.write(notify)
+    print >> sys.stdout, notify
     vim.command('set nomodified')
 
 
@@ -229,7 +227,7 @@ def blog_list_posts(count = "30"):
 @__exception_check
 def blog_upload_media(file_path):
     if not os.path.exists(file_path):
-        sys.stderr.write("File does not exist: %s" % file_path)
+        print >> sys.stderr, "File does not exist: %s" % file_path
         return
 
     name = os.path.basename(file_path)
